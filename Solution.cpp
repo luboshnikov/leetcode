@@ -454,5 +454,27 @@ public:
 
         return res;
     }
+
+    static int numFactoredBinaryTrees(vector<int>& arr) {
+        vector<unsigned long> countTrees(arr.size(), 1);
+        sort(arr.begin(), arr.end());
+
+        for(int i = 1; i < arr.size(); i++){
+            unsigned long count = 1;
+            for(int j = 0; j < i; j++){
+                if(arr[i]%arr[j] == 0 && binary_search(arr.begin(), arr.begin()+i, arr[i]/arr[j])){
+                    int z = lower_bound(arr.begin(), arr.begin()+i, arr[i]/arr[j]) - arr.begin();
+                    count += countTrees[j] * countTrees[z];
+                }
+                countTrees[i] = count;
+            }
+        }
+
+        unsigned int res = 0, M = 1e9 + 7;
+        for(auto& i : countTrees){
+            res = (res + i) % M;
+        }
+        return (int)res;
+    }
 };
 

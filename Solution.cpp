@@ -476,5 +476,50 @@ public:
         }
         return (int)res;
     }
+
+    static bool isPalindrome(ListNode* head) {
+        ListNode *new_head = head;
+        head = head->next;
+        new_head->next = nullptr;
+
+        if(head == nullptr){
+            return true;
+        }
+
+        while(head){
+            bool res = false;
+            ListNode *comp_old;
+            ListNode *comp_new;
+            if(head->val == new_head->val){
+                comp_old = head->next;
+                comp_new = new_head->next;
+                while(comp_old and comp_new and comp_old->val == comp_new->val){
+                    comp_old = comp_old->next;
+                    comp_new = comp_new->next;
+                }
+                if(comp_old == nullptr and comp_new == nullptr){
+                    return true;
+                }
+            }
+
+            if(head->next and head->next->val == new_head->val) {
+                comp_old = head->next->next;
+                comp_new = new_head->next;
+                while(comp_old and comp_new and comp_old->val == comp_new->val){
+                    comp_old = comp_old->next;
+                    comp_new = comp_new->next;
+                }
+                if(comp_old == nullptr and comp_new == nullptr){
+                    return true;
+                }
+            }
+
+            comp_new = head;
+            head = head->next;
+            comp_new->next = new_head;
+            new_head = comp_new;
+        }
+        return false;
+    }
 };
 

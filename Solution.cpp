@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -554,6 +555,21 @@ public:
     }
     static TreeNode* sortedArrayToBST(vector<int>& nums) {
         return BST(nums.begin(), nums.end());
+    }
+
+    static bool reorderedPowerOf2(int n) {
+        string s = to_string(n);
+        sort(s.begin(), s.end());
+        unordered_set<string> powerOfTwo;
+        for(int i = 0; i < 32; i++){
+            uint k = 1 << i;
+            string comp = to_string(k);
+            if(comp.size() == s.size()){
+                sort(comp.begin(), comp.end());
+                powerOfTwo.insert(comp);
+            }
+        }
+        return powerOfTwo.count(s) > 0;
     }
 };
 

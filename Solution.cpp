@@ -571,5 +571,18 @@ public:
         }
         return powerOfTwo.count(s) > 0;
     }
+
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, uint> chars;
+        for(auto& i : magazine){
+            chars[i]++;
+        }
+        for(auto& i : ransomNote){
+            if(chars.count(i) == 0 or chars[i]-- < 1){
+                return false;
+            }
+        }
+        return true;
+    }
 };
 

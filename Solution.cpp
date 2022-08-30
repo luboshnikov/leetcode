@@ -584,5 +584,20 @@ public:
         }
         return true;
     }
+
+    static void rotate(vector<vector<int>>& matrix) {
+        int sw;
+        size_t sz = matrix.size() - 1;
+        for(int i = 0; i < matrix.size()/2; i++){
+            for(int j = i; j < sz - i; j++){
+                sw = matrix[i][j];
+                matrix[i][j] = matrix[sz-j][i];
+                matrix[sz-j][i] = matrix[sz-i][sz-j];
+                matrix[sz-i][sz-j] = matrix[j][sz-i];
+                matrix[j][sz-i] = sw;
+            }
+        }
+    }
+
 };
 

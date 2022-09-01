@@ -599,6 +599,48 @@ public:
         }
     }
 
+    static void checkFlow(vector<vector<int>>& heights, vector<vector<bool>>& land, size_t x, size_t y){
+        if(land[x][y]){
+            return;
+        }
+        land[x][y] = true;
+        if(x < heights.size()-1 and !land[x+1][y] and heights[x+1][y] >= heights[x][y]){
+            checkFlow(heights, land, x+1, y);
+        }
+        if(y < heights[0].size()-1 and !land[x][y+1] and heights[x][y+1] >= heights[x][y]){
+            checkFlow(heights, land, x, y+1);
+        }
+        if(x > 0 and !land[x-1][y] and heights[x-1][y] >= heights[x][y]){
+            checkFlow(heights, land, x-1, y);
+        }
+        if(y > 0 and !land[x][y-1] and heights[x][y-1] >= heights[x][y]){
+            checkFlow(heights, land, x, y-1);
+        }
+    }
+
+    static vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        size_t last_row = heights.size(), last_column = heights[0].size();
+        vector<vector<bool>> atlantic(last_row, vector<bool>(last_column, false)), pacific(last_row, vector<bool>(last_column, false));
+        for(size_t row = 0; row < last_row; row++){
+            checkFlow(heights, atlantic, row, last_column-1);
+            checkFlow(heights, pacific, row, 0);
+        }
+        for(size_t column = 0; column < last_column; column++){
+            checkFlow(heights, atlantic, last_row - 1, column);
+            checkFlow(heights, pacific, 0, column);
+        }
+
+        vector<vector<int>> res;
+        for(int i = 0; i < last_row; i++){
+            for(int j = 0; j < last_column; j++){
+                if(atlantic[i][j] and pacific[i][j]){
+                    res.push_back({i, j});
+                }
+            }
+        }
+        return res;
+    }
+
     static void counting_good_nodes(TreeNode* root, int& count, int max_val){
         if(root){
             if(root->val >= max_val){

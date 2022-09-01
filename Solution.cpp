@@ -599,5 +599,22 @@ public:
         }
     }
 
+    static void counting_good_nodes(TreeNode* root, int& count, int max_val){
+        if(root){
+            if(root->val >= max_val){
+                count++;
+                max_val = root->val;
+            }
+            counting_good_nodes(root->left, count, max_val);
+            counting_good_nodes(root->right, count, max_val);
+        }
+
+    }
+
+    static int goodNodes(TreeNode* root) {
+        int result = 0;
+        counting_good_nodes(root, result, -10001);
+        return result;
+    }
 };
 

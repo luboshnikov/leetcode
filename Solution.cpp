@@ -585,6 +585,29 @@ public:
         return true;
     }
 
+    static void mark_land(vector<vector<char>>& grid, size_t x, size_t y){
+        if(x < 0 or y < 0 or x >= grid.size() or y >= grid[0].size() or grid[x][y] != '1') return;
+
+        grid[x][y] = '2';
+
+        mark_land(grid, x+1, y);
+        mark_land(grid, x, y+1);
+        mark_land(grid, x-1, y);
+        mark_land(grid, x, y-1);
+    }
+    static int numIslands(vector<vector<char>>& grid) {
+        int count = 0;
+        for(size_t i = 0; i < grid.size(); i++){
+            for(size_t j = 0; j < grid[0].size(); j++){
+                if(grid[i][j] == '1'){
+                    count++;
+                    mark_land(grid, i, j);
+                }
+            }
+        }
+        return count;
+    }
+
     static void rotate(vector<vector<int>>& matrix) {
         int sw;
         size_t sz = matrix.size() - 1;
